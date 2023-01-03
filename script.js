@@ -11,7 +11,7 @@ const words = ['application', 'programming', 'interface', 'wizard'];
 
 const randomWord = words[Math.floor(Math.random() * words.length)];
 
-const correctLetters = ['w', 'i', 'z', 'a', 'r', 'd'];
+const correctLetters = [];
 const wrongLetters = [];
 
 console.log(randomWord);
@@ -34,6 +34,42 @@ function displayWord() {
     popup.style.display = 'flex';
   }
 }
+
+function showNotification() {
+  notification.classList.add('show');
+
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 1500);
+}
+
+function updateWrongLetters() {
+  console.log('wrong letters array')
+}
+
+window.addEventListener('keydown', e => {
+  const inputLetter = e.key.toUpperCase().charCodeAt(0);
+  if (inputLetter >=65 && inputLetter <= 90) {
+    const letter = e.key.toLowerCase();
+
+    if (randomWord.includes(letter)) {
+      if (!correctLetters.includes(letter)) {
+        correctLetters.push(letter);
+      } else {
+        showNotification();
+      }
+    } else {
+      if (!wrongLetters.includes(letter)) {
+        wrongLetters.push(letter);
+
+        updateWrongLetters();
+      } else {
+        showNotification();
+      }
+    }
+  }
+  displayWord();
+});
 
 
 displayWord();
